@@ -26,7 +26,13 @@ GstWidget::GstWidget(QWidget *parent)
     _pipeline = gst_pipeline_new ("videosinktest");
 
     source = gst_element_factory_make("videotestsrc", "mysource");
-    sink = gst_element_factory_make("xvimagesink", "myvideosink");
+    if(!(sink = gst_element_factory_make("imxeglvivsink", "myvideosink")))
+       if(!(sink = gst_element_factory_make("xvimagesink", "myvideosink")))
+           if(!(sink = gst_element_factory_make("autovideosink", "myvideosink")))
+            {
+               qDebug() <<  "No output sink could be created.";
+               return;
+           }
 
     if(!_pipeline || !source || !sink) {
         qDebug() <<  "Not all elements could be created.";
