@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui gui-private
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,22 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        widget.cpp
+        GstWidget.cpp \
+        main.cpp
 
 HEADERS += \
-        widget.h
+    GstWidget.h
 
 
 unix {
    CONFIG += link_pkgconfig
-   PKGCONFIG += gstreamer-1.0 gstreamer-audio-1.0 gstreamer-video-1.0 llmanager pte wedge
-   target.path = /tmp/tmp/tmp/app
-   xml.path = /tmp/doc/xml
-   xml.files = ../../../doc/xml/*
-   INSTALLS += target xml
+   PKGCONFIG += gstreamer-1.0 gstreamer-audio-1.0 gstreamer-video-1.0 televictouring
+   INSTALLS += target
 }
 
-INCLUDEPATH += ../../../gstreamer1.0-plugins-bad/1.16.0-r0/gst-plugins-bad-1.16.0/gst-libs
-
-LIBS += -L../../../gstreamer1.0-plugins-bad/1.16.0-r0/image/usr/lib -lgstwayland-1.0
+x11 {
+    LIBS += -lX11
+}
