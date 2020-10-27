@@ -30,7 +30,10 @@ int main(int argc, char *argv[])
     w.setAutoFillBackground(true);
     w.setPalette(pal);
 
-    w.showFullScreen();
+//    w.setWindowState(Qt::WindowFullScreen);
+//    w.showFullScreen();
+    w.setFixedWidth(1280);
+    w.setFixedHeight(800);
 
     a.setOverrideCursor(QCursor(Qt::BlankCursor));
 
