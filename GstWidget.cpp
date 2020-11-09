@@ -18,10 +18,11 @@ static GstBusSyncReply _bus_callback (GstBus */*bus*/, GstMessage *message, gpoi
 }
 
 
-GstWidget::GstWidget(QWidget *parent)
+GstWidget::GstWidget(QWidget *parent, unsigned int rotation)
     : QWidget(parent)
 {
     GstElement *source;
+    GstElement *transform;
     GstElement *sink;
     _pipeline = gst_pipeline_new ("videosinktest");
 
@@ -40,7 +41,17 @@ GstWidget::GstWidget(QWidget *parent)
 
     gst_bin_add_many(GST_BIN(_pipeline), source, sink, NULL);
 
-    gst_element_link(source,sink);
+    transform = gst_element_factory_make("imxg2dvideotransform", "transform");
+    if(transform)
+    {
+        gst_bin_add(GST_BIN(_pipeline),transform);
+        g_object_set(transform, "output-rotation", rotation, NULL);
+
+        gst_element_link_many(source, transform, sink, NULL);
+    }
+    else {
+        gst_element_link(source,sink);
+    }
 
     // monitor sync to pass along window id
     GstBus * bus = gst_pipeline_get_bus(GST_PIPELINE(_pipeline));

@@ -11,7 +11,7 @@ class GstWidget : public QWidget
     Q_OBJECT
 
 public:
-    GstWidget(QWidget *parent = 0);
+    GstWidget(QWidget *parent = 0, unsigned int rotation = 0);
     ~GstWidget();
 
     WId _window;
